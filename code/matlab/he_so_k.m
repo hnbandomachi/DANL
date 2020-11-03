@@ -79,7 +79,7 @@ end
 
 % Calculating the current on the line
 for i = 1:mostNode2
-        
+                
 end
 
 % s = node;

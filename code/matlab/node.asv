@@ -5,10 +5,12 @@ classdef node
       Q;
       cosphi;
       Udm;
-      Idm;
+      Idm = node.P/sqrt(3)/
       line;
       PV;
-      bac;
-   end   
+   end  
+   
+   
+   
    
 end
