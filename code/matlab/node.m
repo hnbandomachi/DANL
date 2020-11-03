@@ -1,5 +1,6 @@
 classdef node
    properties
+      name;
       P;
       Q;
       cosphi;

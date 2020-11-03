@@ -50,8 +50,7 @@ for i = 1:n-1
 %     disp(strcat('Day thu -', num2str(i)));  
     
     duongdays(i).nut = [tempNutDuongday(i), tempNutDuongday(i+1)];
-    NutForFindMost(size(NutForFindMost,2)+1) = duongdays(i).nut(1);
-    NutForFindMost(size(NutForFindMost,2)+1) = duongdays(i).nut(2);
+    NutForFindMost(size(tempNutDuongday,2)+1) = duongdays(i).nut(1
     duongdays(i).R = 0.01*rand();
     duongdays(i).L = 0.01*rand();
     duongdays(i).X = 0.01*rand();
@@ -60,27 +59,9 @@ for i = 1:n-1
 end
 
 % Find the node containing the most line
-mostNode1 = 0;
-mostNode2 = 0;
-for i = 1:length(NutForFindMost)
-    temp = NutForFindMost(i);
-    for j = 1:length(NutForFindMost)
-        if temp == NutForFindMost(j)
-            mostNode1 = mostNode1 + 1;
-        end
-    end
-    
-    if mostNode1 > mostNode2
-        mostNode2 = mostNode1;        
-    end
-    mostNode1 = 0;
-    
-end
 
-% Calculating the current on the line
-for i = 1:mostNode2
-        
-end
+
+
 
 % s = node;
 % s.P = 10;
