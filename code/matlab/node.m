@@ -9,6 +9,7 @@ classdef node
       line;
       PV;
       bac;
+      U = 22;
    end   
    
 end

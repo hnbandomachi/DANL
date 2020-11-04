@@ -109,8 +109,8 @@ end
 for chay = 1:n
     % Xet day co nut 1 la nut trai -> tinh nut phai cua day do
     for day = 1:n-1
-        if Nodes(duongdays(day).nut(1)).U < 22 || duongdays(day).nut(1) == 1
-            Nodes(duongdays(day).nut(2)).U = Nodes(duongdays(day).nut(1)).U - duongdays(day).deltaU;
+        if duongdays(day).nut(1) < 22 || duongdays(day).nut(1) == 1
+            duongdays(day).nut(2) = 
         end
     end
     
