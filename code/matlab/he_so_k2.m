@@ -83,14 +83,19 @@ end
 % Tinh dong day
 for chay = 1:(n-1)*1
    for day = 1:n-1
-       phai = duongdays(day).nut(2);
-       for i = 1:n-1
-          if phai == duongdays(i).nut(1)
-              if duongdays(i).I > 0
-                 duongdays(day).I = duongdays(day).I + duongdays(i).I; 
+%        if duongdays(day).I <=  Nodes(duongdays(day).nut(2)).Idm
+            duongdays(day).I = Nodes(duongdays(day).nut(2)).Idm; 
+            phai = duongdays(day).nut(2);
+            for i = 1:n-1
+              if phai == duongdays(i).nut(1)
+                  if duongdays(i).I > 0
+                     duongdays(day).I = duongdays(day).I + duongdays(i).I; 
+                  end
               end
-          end
-       end
+            end
+%        end
+       
+%        duongdays(day).I = duongdays(day).I + Nodes(duongdays(day).nut(1)).Idm;
       
    end
 end
