@@ -3,6 +3,9 @@ clc; clear; close all;
 n = 15;
 Nodes = node.empty(0,n);
 duongdays = duongday.empty(0,n-1);
+bienap = MBA.empty(0, 1);
+
+% Nhap thong so MA
 
 % Nhap thong so cua nut
 Nodes(1).name = 1; Nodes(1).P = 4; Nodes(1).cosphi = 0.85; Nodes(1).Udm = 22;  Nodes(1).PV = 2;
@@ -116,7 +119,27 @@ for chay = 1:n
     
 end
 
+% Tinh phan tram sut ap lon nhat va nho nhat: maxDrop, minDrop
+maxDrop = 0;
+minDrop = 100;
+for i = 1:n 
+    if(maxDrop < abs((Nodes(i).U - 22)/22)*100)
+        maxDrop = abs((Nodes(i).U - 22)/22)*100;
+    end
+    
+    if(minDrop > abs((Nodes(i).U - 22)/22)*100)
+        minDrop = abs((Nodes(i).U - 22)/22)*100;
+    end
+end
 
+% Kiem tra va dieu chinh kT cua MBA 
+% neu nhu co nut sut ap vuot qua 5%
+while((maxDrop) > 5 || (minDrop) > 5)
+    nT = nT + 1;
+    bienap.Upa = U1dm*(1+nT*0.0178);
+    bienap.kT = bienap.Upa/bienap.U2dm;
+    bienap.U2 = bienap.U1*bienap.kT;
+end
 
 
 
