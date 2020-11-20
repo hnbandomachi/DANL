@@ -5,7 +5,10 @@ Nodes = node.empty(0,n);
 duongdays = duongday.empty(0,n-1);
 
 % Nhap thong so MA
-Udm_cao = 110; Udm_ha = 22; nT = 1; U_cao = Udm_cao; U_ha = Udm_ha; kT = U_cao/U_ha; Upa = Udm_cao*(1+0.0178*nT);
+Udm_cao = 110; Udm_ha = 22; U_cao = Udm_cao; U_ha = Udm_ha; kT = U_cao/U_ha; Upa = Udm_cao;
+
+% Ma tran kiem chung A
+A = [];
 
 % Nhap thong so cua nut
 Nodes(1).name = 1; Nodes(1).P = 4; Nodes(1).cosphi = 0.85; Nodes(1).Udm = 22;  Nodes(1).PV = 2;
@@ -41,118 +44,132 @@ duongdays(12).nut = [8, 12]; duongdays(12).R = 0.01; duongdays(12).L = 0.02; duo
 duongdays(13).nut = [8, 13]; duongdays(13).R = 0.01; duongdays(13).L = 0.02; duongdays(13).X = 0.015; duongdays(13).dai = 15;
 duongdays(14).nut = [13, 15]; duongdays(14).R = 0.01; duongdays(14).L = 0.02; duongdays(14).X = 0.015; duongdays(14).dai = 15;
 
-% Tinh Q I cua nut
-for nut = 1:n
-   Nodes(nut).Q = Nodes(nut).P/(1 + Nodes(nut).cosphi*Nodes(nut).cosphi);
-   Nodes(nut).Idm = (Nodes(nut).P-Nodes(nut).PV)/(sqrt(3)*Nodes(nut).Udm*Nodes(nut).cosphi);
-end
-
-% Tinh nut trai va phai cua day
-nut_trai = [];
-nut_phai = [];
-for i = 1 : n-1
-    nut_trai(length(nut_trai)+1) = duongdays(i).nut(1); 
-    nut_phai(length(nut_phai)+1) = duongdays(i).nut(2); 
-end
-
-% Tinh bac 1 cua nut
-for nut = 1 : n
-    warn = false;
-    for day = 1 : n -1
-        if nut == nut_trai(day)
-           warn = true; 
+row = 0;
+for dochieu = 0.1:0.1:1
+    dochieu
+    Nodes(5).Idm
+    row = row + 1; col = 0;
+    for nT = 1:-1:-8        
+        col = col + 1;
+        % Tinh Q I cua nut
+        for nut = 1:n
+           Nodes(nut).Q = (Nodes(nut).P - Nodes(nut).PV*dochieu)/(1 + Nodes(nut).cosphi*Nodes(nut).cosphi);
+           Nodes(nut).Idm = (Nodes(nut).P-Nodes(nut).PV*dochieu)/(sqrt(3)*Nodes(nut).Udm*Nodes(nut).cosphi);
         end
-    end
-    if warn == false
-        Nodes(nut).bac = 1;
-    end
-end
+        
+        % Tinh nut trai va phai cua day
+        nut_trai = [];
+        nut_phai = [];
+        for i = 1 : n-1
+            nut_trai(length(nut_trai)+1) = duongdays(i).nut(1); 
+            nut_phai(length(nut_phai)+1) = duongdays(i).nut(2); 
+        end
 
-% Tinh bac 1 cua day
-for day = 1 : n-1
-   if Nodes(duongdays(day).nut(2)).bac == 1
-       duongdays(day).bac = 1;
-   end
-end
-
-% Tinh dong day bac 1
-for day = 1 : n-1
-   if duongdays(day).bac == 1
-       duongdays(day).I = Nodes(duongdays(day).nut(2)).Idm;     
-   end
-end
-
-
-% Tinh dong day
-for chay = 1:(n-1)*1
-   for day = 1:n-1
-        duongdays(day).I = Nodes(duongdays(day).nut(2)).Idm; 
-        phai = duongdays(day).nut(2);
-        for i = 1:n-1
-          if phai == duongdays(i).nut(1)
-              if duongdays(i).I > 0
-                 duongdays(day).I = duongdays(day).I + duongdays(i).I; 
-              end
-          end
-        end      
-   end
-end
-
-
-% Tinh sut ap roi tren tung doan day
-for day = 1 : n-1
-%    deltaU = duongdays(day).delta;
-   I = duongdays(day).I;
-   R = duongdays(day).R*duongdays(day).dai;
-   zL = duongdays(day).L*duongdays(day).dai;
-   zX = duongdays(day).X*duongdays(day).dai;
-   duongdays(day).deltaU = I*sqrt(R*R + (zL-zX)*(zL-zX));
-end
-
-% Kiem tra va dieu chinh kT cua MBA 
-% neu nhu co nut sut ap vuot qua 5%
-maxDrop = 100;
-minDrop = 100;
-while((maxDrop) > 3 || (minDrop) > 3) 
-    
-    nT = nT - 1;
-    Upa = Udm_cao*(1+ nT*0.0178);
-    kT = Upa/Udm_ha;
-    U_ha = Udm_cao/kT
- 
-    % Tinh lai Udm tai cac nut va cho Udm = U_ha
-    for i = 1:n
-       Nodes(i).U = U_ha; 
-    end        
-    
-    % Tinh dien ap tai cac nut
-    for chay = 1:n
-        % Xet day co nut 1 la nut trai -> tinh nut phai cua day do
-        for day = 1:n-1
-            if Nodes(duongdays(day).nut(1)).U < U_ha || duongdays(day).nut(1) == 1
-                Nodes(duongdays(day).nut(2)).U = Nodes(duongdays(day).nut(1)).U - duongdays(day).deltaU;
+        % Tinh bac 1 cua nut
+        for nut = 1 : n
+            warn = false;
+            for day = 1 : n -1
+                if nut == nut_trai(day)
+                   warn = true; 
+                end
+            end
+            if warn == false
+                Nodes(nut).bac = 1;
             end
         end
 
-    end
-
-    % Tinh phan tram sut ap lon nhat va nho nhat: maxDrop, minDrop
-    maxDrop = 0;
-    minDrop = 100;
-    for i = 1:n 
-        if(maxDrop < abs((Nodes(i).U - Udm_ha)/Udm_ha)*100)
-            maxDrop = abs((Nodes(i).U - Udm_ha)/Udm_ha)*100;
+        % Tinh bac 1 cua day
+        for day = 1 : n-1
+           if Nodes(duongdays(day).nut(2)).bac == 1
+               duongdays(day).bac = 1;
+           end
         end
 
-        if(minDrop > abs((Nodes(i).U - Udm_ha)/22)*100)
-            minDrop = abs((Nodes(i).U - Udm_ha)/22)*100;
+        % Tinh dong day bac 1
+        for day = 1 : n-1
+           if duongdays(day).bac == 1
+               duongdays(day).I = Nodes(duongdays(day).nut(2)).Idm;     
+           end
         end
+
+
+        % Tinh dong day
+        for chay = 1:(n-1)*1
+           for day = 1:n-1
+                duongdays(day).I = Nodes(duongdays(day).nut(2)).Idm; 
+                phai = duongdays(day).nut(2);
+                for i = 1:n-1
+                  if phai == duongdays(i).nut(1)
+                      if duongdays(i).I > 0
+                         duongdays(day).I = duongdays(day).I + duongdays(i).I; 
+                      end
+                  end
+                end      
+           end
+        end
+
+
+        % Tinh sut ap roi tren tung doan day
+        for day = 1 : n-1
+        %    deltaU = duongdays(day).delta;
+           I = duongdays(day).I;
+           R = duongdays(day).R*duongdays(day).dai;
+           zL = duongdays(day).L*duongdays(day).dai;
+           zX = duongdays(day).X*duongdays(day).dai;
+           duongdays(day).deltaU = I*sqrt(R*R + (zL-zX)*(zL-zX));
+        end
+
+        % Kiem tra va dieu chinh kT cua MBA 
+        % neu nhu co nut sut ap vuot qua 5%
+        maxDrop = 100;
+        minDrop = 100;
+
+
+%         nT = nT - 1;
+        Upa = Udm_cao*(1+ nT*0.0178);
+        kT = Upa/Udm_ha;
+        U_ha = Udm_cao/kT;
+
+        % Tinh lai Udm tai cac nut va cho Udm = U_ha
+        for i = 1:n
+           Nodes(i).U = U_ha; 
+        end        
+
+        % Tinh dien ap tai cac nut
+        for chay = 1:n
+            % Xet day co nut 1 la nut trai -> tinh nut phai cua day do
+            for day = 1:n-1
+                if Nodes(duongdays(day).nut(1)).U < U_ha || duongdays(day).nut(1) == 1
+                    Nodes(duongdays(day).nut(2)).U = Nodes(duongdays(day).nut(1)).U - duongdays(day).deltaU;
+                end
+            end
+
+        end
+
+        % Tinh phan tram sut ap lon nhat va nho nhat: maxDrop, minDrop
+        maxDrop = 0;
+        minDrop = 100;
+        for i = 1:n 
+            if(maxDrop < abs((Nodes(i).U - Udm_ha)/Udm_ha)*100)
+                maxDrop = abs((Nodes(i).U - Udm_ha)/Udm_ha)*100;
+            end
+
+            if(minDrop > abs((Nodes(i).U - Udm_ha)/22)*100)
+                minDrop = abs((Nodes(i).U - Udm_ha)/22)*100;
+            end
+        end
+        if (maxDrop < 2)
+            A(row, col) = nT;
+        else
+            A(row, col) = 999;
+        end
+        
     end
     
 end
 
 
-
+A
 
 
 
