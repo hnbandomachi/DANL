@@ -6,6 +6,11 @@ duongdays = duongday.empty(0,n-1);
 
 % Nhap thong so MA
 Udm_cao = 110; Udm_ha = 22; U_cao = Udm_cao; U_ha = Udm_ha; kT = U_cao/U_ha; Upa = Udm_cao;
+U_N = 10; P_N = 18; Sdm = 25;
+
+% Tinh RT XT cua MBA
+XT = U_N/100*Udm_cao*Udm_cao/Sdm/5;
+RT = P_N*Udm_cao*Udm_cao/Sdm/Sdm/1000/5;
 
 % Ma tran kiem chung A
 A = [];
@@ -109,7 +114,7 @@ for dochieu = 0.1:0.1:1
         end
 
 
-        % Tinh sut ap roi tren tung doan day
+        % Tinh sut ap va P,Q roi tren tung doan day
         for day = 1 : n-1
         %    deltaU = duongdays(day).delta;
            I = duongdays(day).I/1000;       % doi sang kA
@@ -117,15 +122,26 @@ for dochieu = 0.1:0.1:1
            zL = duongdays(day).L*duongdays(day).dai;
            zX = duongdays(day).X*duongdays(day).dai;
            duongdays(day).deltaU = I*sqrt(R*R + (zL-zX)*(zL-zX));
+           duongdays(day).P = I*I*R;
+           duongdays(day).Q = I*I*zL;
         end
-
-        % Kiem tra va dieu chinh kT cua MBA 
-        % neu nhu co nut sut ap vuot qua 5%
-%         maxDrop = 100;
-%         minDrop = 100;
-
-
-%         nT = nT - 1;
+        
+        % Tinh tong PL va QL
+        PL = 0; QL = 0;
+        for i = 1 : n
+            PL = PL + Nodes(i).P;
+            QL = QL + Nodes(i).Q;
+        end
+        
+        for i = 1 : (n-1)
+            PL = PL + duongdays(i).P;
+            QL = QL + duongdays(i).Q;
+        end
+        
+        % Tinh Upa => Uha
+        PT = PL + RT*(PL*PL + QL*QL)/110/110;
+        QT = QL + XT*(PL*PL + QL*QL)/110/110;
+        Udm_cao = sqrt((U_cao - 1/110*PT*RT/1000-1/110*QT*XT/1000)^2 + (1/110*PT*RT/1000-1/110*QT*XT/1000)^2);        
         Upa = Udm_cao*(1+ nT*0.0178);
         kT = Upa/Udm_ha;
         U_ha = Udm_cao/kT;
