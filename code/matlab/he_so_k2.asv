@@ -1,6 +1,7 @@
 clc; clear; close all;
 
-n = 15;
+n = 15;     % So luong nut
+% Khoi tao nut va duong day
 Nodes = node.empty(0,n);
 duongdays = duongday.empty(0,n-1);
 
@@ -9,28 +10,29 @@ Udm_cao = 110; Udm_ha = 22; U_cao = Udm_cao; U_ha = Udm_ha; kT = U_cao/U_ha; Upa
 U_N = 10; P_N = 18; Sdm = 25;
 
 % Tinh RT XT cua MBA
-XT = U_N/100*Udm_cao*Udm_cao/Sdm;
-RT = P_N*Udm_cao*Udm_cao/Sdm/Sdm/1000;
+XT = U_N/100*Udm_cao*Udm_cao/Sdm/5;
+RT = P_N*Udm_cao*Udm_cao/Sdm/Sdm/1000/5;
 
 % Ma tran kiem chung A
 A = [];
 
+delPV = 50;
 % Nhap thong so cua nut P = 200 -300        PV = >100
-Nodes(1).name = 1; Nodes(1).P = 240; Nodes(1).cosphi = 0.85;        Nodes(1).Udm = 22;  Nodes(1).PV = 150;
-Nodes(2).name = 2; Nodes(2).P = 260; Nodes(2).cosphi = 0.85;        Nodes(2).Udm = 22;  Nodes(2).PV = 150;
-Nodes(3).name = 3; Nodes(3).P = 270; Nodes(3).cosphi = 0.85;        Nodes(3).Udm = 22;  Nodes(3).PV = 160;
-Nodes(4).name = 4; Nodes(4).P = 230; Nodes(4).cosphi = 0.85;        Nodes(4).Udm = 22;  Nodes(4).PV = 150;
-Nodes(5).name = 5; Nodes(5).P = 280; Nodes(5).cosphi = 0.85;        Nodes(5).Udm = 22;  Nodes(5).PV = 180;
-Nodes(6).name = 6; Nodes(6).P = 290; Nodes(6).cosphi = 0.85;        Nodes(6).Udm = 22;  Nodes(6).PV = 100;
-Nodes(7).name = 7; Nodes(7).P = 300; Nodes(7).cosphi = 0.85;        Nodes(7).Udm = 22;  Nodes(7).PV = 100;
-Nodes(8).name = 8; Nodes(8).P = 250; Nodes(8).cosphi = 0.85;        Nodes(8).Udm = 22;  Nodes(8).PV = 170;
-Nodes(9).name = 9; Nodes(9).P = 270; Nodes(9).cosphi = 0.85;        Nodes(9).Udm = 22;  Nodes(9).PV = 100;
-Nodes(10).name = 10; Nodes(10).P = 260; Nodes(10).cosphi = 0.85;    Nodes(10).Udm = 22; Nodes(10).PV = 170;
-Nodes(11).name = 11; Nodes(11).P = 220; Nodes(11).cosphi = 0.85;    Nodes(11).Udm = 22; Nodes(11).PV = 150;
-Nodes(12).name = 12; Nodes(12).P = 250; Nodes(12).cosphi = 0.85;    Nodes(12).Udm = 22; Nodes(12).PV = 170;
-Nodes(13).name = 13; Nodes(13).P = 270; Nodes(13).cosphi = 0.85;    Nodes(13).Udm = 22; Nodes(13).PV = 100;
-Nodes(14).name = 14; Nodes(14).P = 280; Nodes(14).cosphi = 0.85;    Nodes(14).Udm = 22; Nodes(14).PV = 100;
-Nodes(15).name = 15; Nodes(15).P = 280; Nodes(15).cosphi = 0.85;    Nodes(15).Udm = 22; Nodes(15).PV = 100;
+Nodes(1).name = 1; Nodes(1).P = 240; Nodes(1).Q = 130;        Nodes(1).Udm = 22;  Nodes(1).PV = 150 + delPV;
+Nodes(2).name = 2; Nodes(2).P = 260; Nodes(2).Q = 190;        Nodes(2).Udm = 22;  Nodes(2).PV = 150 + delPV;
+Nodes(3).name = 3; Nodes(3).P = 270; Nodes(3).Q = 140;        Nodes(3).Udm = 22;  Nodes(3).PV = 160 + delPV;
+Nodes(4).name = 4; Nodes(4).P = 230; Nodes(4).Q = 120;        Nodes(4).Udm = 22;  Nodes(4).PV = 150 + delPV;
+Nodes(5).name = 5; Nodes(5).P = 280; Nodes(5).Q = 100;        Nodes(5).Udm = 22;  Nodes(5).PV = 180 + delPV;
+Nodes(6).name = 6; Nodes(6).P = 290; Nodes(6).Q = 160;        Nodes(6).Udm = 22;  Nodes(6).PV = 100 + delPV;
+Nodes(7).name = 7; Nodes(7).P = 300; Nodes(7).Q = 120;        Nodes(7).Udm = 22;  Nodes(7).PV = 100 + delPV;
+Nodes(8).name = 8; Nodes(8).P = 250; Nodes(8).Q = 130;        Nodes(8).Udm = 22;  Nodes(8).PV = 170 + delPV;
+Nodes(9).name = 9; Nodes(9).P = 270; Nodes(9).Q = 150;        Nodes(9).Udm = 22;  Nodes(9).PV = 100 + delPV;
+Nodes(10).name = 10; Nodes(10).P = 260; Nodes(10).Q = 130;    Nodes(10).Udm = 22; Nodes(10).PV = 170 + delPV;
+Nodes(11).name = 11; Nodes(11).P = 220; Nodes(11).Q = 110;    Nodes(11).Udm = 22; Nodes(11).PV = 150 + delPV;
+Nodes(12).name = 12; Nodes(12).P = 250; Nodes(12).Q = 140;    Nodes(12).Udm = 22; Nodes(12).PV = 170 + delPV;
+Nodes(13).name = 13; Nodes(13).P = 270; Nodes(13).Q = 80;    Nodes(13).Udm = 22; Nodes(13).PV = 100 + delPV;
+Nodes(14).name = 14; Nodes(14).P = 280; Nodes(14).Q = 100;    Nodes(14).Udm = 22; Nodes(14).PV = 100 + delPV;
+Nodes(15).name = 15; Nodes(15).P = 280; Nodes(15).Q = 100;    Nodes(15).Udm = 22; Nodes(15).PV = 100 +;
 
 
 % Nhap thong so duong day
@@ -52,15 +54,19 @@ duongdays(14).nut = [13, 15]; duongdays(14).R = 0.072; duongdays(14).L = 0.32; d
 row = 0;
 for dochieu = 0.1:0.1:1
     dochieu
-    Nodes(5).Idm
+    
     row = row + 1; col = 0;
     for nT = 9:-1:-9        
         col = col + 1;
-        % Tinh Q I cua nut
+        
+        
+        % Tinh I, cosphi cua nut
         for nut = 1:n
-           Nodes(nut).Q = (Nodes(nut).P - Nodes(nut).PV*dochieu)/(1 + Nodes(nut).cosphi*Nodes(nut).cosphi);
+%            Nodes(nut).Q = (Nodes(nut).P - Nodes(nut).PV*dochieu)/(1 + Nodes(nut).cosphi*Nodes(nut).cosphi);
+           Nodes(nut).cosphi = Nodes(nut).P/sqrt((Nodes(nut).P)^2 + (Nodes(nut).Q)^2); 
            Nodes(nut).Idm = (Nodes(nut).P-Nodes(nut).PV*dochieu)/(sqrt(3)*Nodes(nut).Udm*Nodes(nut).cosphi);
         end
+        
         
         % Tinh nut trai va phai cua day
         nut_trai = [];
@@ -69,6 +75,7 @@ for dochieu = 0.1:0.1:1
             nut_trai(length(nut_trai)+1) = duongdays(i).nut(1); 
             nut_phai(length(nut_phai)+1) = duongdays(i).nut(2); 
         end
+        
 
         % Tinh bac 1 cua nut
         for nut = 1 : n
@@ -82,6 +89,7 @@ for dochieu = 0.1:0.1:1
                 Nodes(nut).bac = 1;
             end
         end
+        
 
         % Tinh bac 1 cua day
         for day = 1 : n-1
@@ -89,6 +97,7 @@ for dochieu = 0.1:0.1:1
                duongdays(day).bac = 1;
            end
         end
+        
 
         % Tinh dong day bac 1
         for day = 1 : n-1
@@ -96,7 +105,7 @@ for dochieu = 0.1:0.1:1
                duongdays(day).I = Nodes(duongdays(day).nut(2)).Idm;     
            end
         end
-
+        
 
         % Tinh dong day
         for chay = 1:(n-1)*1
@@ -141,8 +150,7 @@ for dochieu = 0.1:0.1:1
         % Tinh Upa => Uha
         PT = PL + RT*(PL*PL + QL*QL)/110/110;
         QT = QL + XT*(PL*PL + QL*QL)/110/110;
-        Udm_cao = sqrt(U_cao + 1/110*PT*RT+1/110*QT*XT);
-        
+        Udm_cao = sqrt((U_cao - 1/110*PT*RT/1000-1/110*QT*XT/1000)^2 + (1/110*PT*RT/1000-1/110*QT*XT/1000)^2);        
         Upa = Udm_cao*(1+ nT*0.0178);
         kT = Upa/Udm_ha;
         U_ha = Udm_cao/kT;
@@ -173,7 +181,7 @@ for dochieu = 0.1:0.1:1
         end
         
         if (maxDrop < 5)
-            A(row, col) = nT;
+            A(row, col) = nT;            
         else
             A(row, col) = 999;
         end
@@ -181,10 +189,6 @@ for dochieu = 0.1:0.1:1
     end
     
 end
-
-
-
-
 A
 
 
