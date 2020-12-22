@@ -2,6 +2,7 @@ classdef node
    properties
       name;
       P;
+      Ptai;
       Q;
       cosphi;
       Udm;
