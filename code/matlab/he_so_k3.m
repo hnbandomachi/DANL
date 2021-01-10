@@ -11,7 +11,7 @@ U_N = 10; P_N = 18; Sdm = 25;
 
 % Tinh RT XT cua MBA
 XT = U_N/100*Udm_cao*Udm_cao/Sdm/5;
-RT = P_N*Udm_cao*Udm_cao/Sdm/Sdm/1000/0;
+RT = P_N*Udm_cao*Udm_cao/Sdm/Sdm/1000/5;
 
 % Ma tran kiem chung ket_qua
 ket_qua = [];
