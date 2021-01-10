@@ -60,7 +60,7 @@ for dochieu = 0:0.1:1
 %     dongday = duongdays(6).I
     row = row + 1; col = 0;  
     
-    for nT = 9:-1:-9        
+    for nT = 0:-1:-0        
         col = col + 1;
         
         
